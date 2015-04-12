@@ -18,40 +18,53 @@
         padding: 10px;
         }
 
-        
+        paper-input.ignored[disabled] {
+        color: #f4b400;
+        text-decoration: line-through;
+        }
+
+
         /* input components */
         paper-checkbox.inline {
         margin-left: 10px;
         margin-bottom: 10px;
         }
 
-        paper-checkbox::shadow #checkbox.checked {
-        background-color: {{d.accentColor}};
-        border-color: {{d.accentColor}};
+        paper-checkbox::shadow #ink[checked] {
+        color: {{g.accentColor}};
         }
-        
+
+        paper-checkbox::shadow #checkbox.checked {
+        background-color: {{g.accentColor}};
+        border-color: {{g.accentColor}};
+        }
+
         paper-input-decorator .focused-underline {
         background-color: {{g.primaryColor}}
         }
         paper-input-decorator[disabled] .underline {
         margin-bottom: -1px;
         }
-        
+
         paper-dropdown paper-shadow {
         margin: 0;
         }
-        
-        paper-dropdown.cobo {
+
+        paper-dropdown.combo {
         width: 100%;
         }
-        
+
+        paper-dropdown-menu {
+        width: 100%;
+        }
+
     </core-style>
     <script>
         CoreStyle.g.darkPrimaryColor = '#1976D2';
         CoreStyle.g.primaryColor = '#2196F3';
         CoreStyle.g.lightPrimaryColor = '#BBDEFB';
         CoreStyle.g.textPrimaryColor = '#FFFFFF';
-        CoreStyle.g.accentColor = '#CDDC39';
+        CoreStyle.g.accentColor = '#8BC34A';
         CoreStyle.g.primaryTextColor = '#212121';
         CoreStyle.g.secondaryTextColor = '#727272';
         CoreStyle.g.dividerColor = '#B6B6B6';

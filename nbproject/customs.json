@@ -1,0 +1,26 @@
+{
+    "elements": {
+        "template": {},
+        "core-style": {},
+        "core-header-panel": {},
+        "paper-checkbox": {},
+        "paper-shadow": {},
+        "paper-item": {},
+        "core-drawer-panel": {},
+        "core-menu": {},
+        "polymer-element": {},
+        "core-toolbar": {},
+        "paper-input": {},
+        "core-icon-button": {}
+    },
+    "attributes": {
+        "fit": {},
+        "horizontal": {},
+        "fullbleed": {},
+        "vertical": {},
+        "on-tap": {},
+        "id": {},
+        "class": {},
+        "selected": {}
+    }
+}

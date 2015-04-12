@@ -21,8 +21,10 @@
         <!--<core-style ref="enek-filter-style"></core-style>-->
         <paper-shadow>
             <div vertical layout>
-                <paper-input label="Szám" disabled="{{filter.nincsszam}}" value="{{filter.szam}}"></paper-input>
-                <paper-checkbox label="nincs szám" checked="{{filter.nincsszam}}"></paper-checkbox>
+                <div horizontal layout center>
+                    <paper-input flex label="Szám" disabled="{{filter.nincsszam}}" value="{{filter.szam}}" class="ignored"></paper-input>
+                    <paper-checkbox label="nincs szám" checked="{{filter.nincsszam}}"></paper-checkbox>
+                </div>
                 <paper-input label="Cím" value="{{filter.cim}}"></paper-input>
 
                 <!--<core-menu class="menu">
