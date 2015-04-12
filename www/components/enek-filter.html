@@ -1,0 +1,77 @@
+<link rel="import" href="../bower_components/webcomponentsjs/webcomponents.min.js">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/core-selector/core-selector.html">
+<link rel="import" href="../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../bower_components/core-dropdown/core-dropdown.html">
+<link rel="import" href="../bower_components/core-collapse/core-collapse.html">
+<link rel="import" href="../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../bower_components/core-dropdown/core-dropdown.html">
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+
+<polymer-element name="enek-filter" attributes="filter">
+    <template>
+        <core-style ref="gitaros-style"></core-style>
+        <!--<core-style ref="enek-filter-style"></core-style>-->
+        <paper-shadow>
+            <div vertical layout>
+                <paper-input label="Szám" disabled="{{filter.nincsszam}}" value="{{filter.szam}}"></paper-input>
+                <paper-checkbox label="nincs szám" checked="{{filter.nincsszam}}"></paper-checkbox>
+                <paper-input label="Cím" value="{{filter.cim}}"></paper-input>
+
+                <!--<core-menu class="menu">
+                            <template repeat="{{mr in misereszek}}">
+                                <paper-item>{{mr.name}}</paper-item>
+                            </template>
+                        </core-menu>-->
+                <paper-dropdown-menu label="{{miseresz.name}}">
+                    <core-dropdown class="dropdown combo">
+                        <core-menu class="menu">
+                            <template repeat="{{mr in misereszek}}">
+                                <paper-item>{{mr.name}}</paper-item>
+                            </template>
+                        </core-menu>
+                    </core-dropdown>
+                </paper-dropdown-menu>
+            </div>
+        </paper-shadow>
+    </template>
+    <core-style id="enek-filter-style">
+        /*core-menu {
+        margin: 0px;
+        }
+        paper-dropdown paper-item {
+        margin: 0;
+        }*/
+    </core-style>
+    <script>
+        Polymer({
+            ready: function () {
+                this.misereszek = [
+                    {name: 'Nincs szűrés', key: ''},
+                    {name: 'Bevonulás', key: 'bev'},
+                    {name: 'Uram irgalmazz', key: 'ui'},
+                    {name: 'Dicsőség', key: 'dics'},
+                    {name: 'Olvasmányközi', key: 'olv'},
+                    {name: 'Alleluja', key: 'all'},
+                    {name: 'Felajánlás', key: 'fela'},
+                    {name: 'Szent vagy', key: 'szt'},
+                    {name: 'Kánon', key: 'kanon'},
+                    {name: 'Isten Báránya', key: 'ib'},
+                    {name: 'Áldozás', key: 'ald'},
+                    {name: 'Kivonulás', key: 'kiv'}
+                ];
+                this.miseresz = this.misereszek[1];
+
+                this.filter = {
+                };
+            }
+        });
+    </script>
+</polymer-element>

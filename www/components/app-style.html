@@ -1,0 +1,62 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-style/core-style.html">
+
+<polymer-element name="app-style" hidden noscript>
+    <core-style id="gitaros-style">
+        :host {
+        font-family: 'RobotoDraft', 'Helvetica Neue', Helvetica, Arial;
+        background-color: {{g.appBackgroundColor}};
+        }
+
+        a {
+        color: {{g.accentColor}};
+        }
+
+        paper-shadow {
+        background-color: {{g.cardBackgroundColor}};
+        margin: 20px;
+        padding: 10px;
+        }
+
+        
+        /* input components */
+        paper-checkbox.inline {
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+
+        paper-checkbox::shadow #checkbox.checked {
+        background-color: {{d.accentColor}};
+        border-color: {{d.accentColor}};
+        }
+        
+        paper-input-decorator .focused-underline {
+        background-color: {{g.primaryColor}}
+        }
+        paper-input-decorator[disabled] .underline {
+        margin-bottom: -1px;
+        }
+        
+        paper-dropdown paper-shadow {
+        margin: 0;
+        }
+        
+        paper-dropdown.cobo {
+        width: 100%;
+        }
+        
+    </core-style>
+    <script>
+        CoreStyle.g.darkPrimaryColor = '#1976D2';
+        CoreStyle.g.primaryColor = '#2196F3';
+        CoreStyle.g.lightPrimaryColor = '#BBDEFB';
+        CoreStyle.g.textPrimaryColor = '#FFFFFF';
+        CoreStyle.g.accentColor = '#CDDC39';
+        CoreStyle.g.primaryTextColor = '#212121';
+        CoreStyle.g.secondaryTextColor = '#727272';
+        CoreStyle.g.dividerColor = '#B6B6B6';
+
+        CoreStyle.g.cardBackgroundColor = '#FFFFFF';
+        CoreStyle.g.appBackgroundColor = '#F5F5F5';
+    </script>
+</polymer-element>
