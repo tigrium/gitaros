@@ -8,22 +8,28 @@
         <core-style ref="enek-lista-style"></core-style>
         <p>Énekek (szűrés és rendezés nélkül):</p>
         <template repeat="{{ enek in enekek }}">
-            <paper-shadow>
-                <div class="cimsor">{{ enek.szam }} {{ enek.cim }}</div>
-                <div>{{ enek.megj }}</div>
+            <paper-shadow class="lista">
+                <div class="cimsor">{{ enek.szam }} {{ enek.cim }} ({{ enek.id }})</div>
+                <div class="megjegyzes">{{ enek.megj }}</div>
                 <div class="idezet">{{ enek.elsosor }}</div>
             </paper-shadow>
         </template>
 
     </template>
     <core-style id="enek-lista-style">
+        .lista {
+        margin: 10px;
+        }
         .cimsor {
             font-weight: 450;
+        }
+        .megjegyzes {
+            color: {{ g.secondaryTextColor }};
         }
         .idezet {
             margin: 5px 0;
             padding-left: 10px;
-            border-left: #dedede 3px solid;
+            border-left: {{ g.dividerColor }} 3px solid;
             font-weight: 300;
             /*font-style: italic;*/
         }
