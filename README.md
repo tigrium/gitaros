@@ -19,6 +19,8 @@ Feladatok felhasználói szemmel:
 Megvalósításhoz ötletek, elvárások:
 - Egy dia több énekhez is tartozhasson
 - Diák sorrendje módosítható legyen, egy dia többször is szerepelhessen
+ - enekek, diak és valami összekötő tábla (enek_ref, dia_ref, nr - a soszáma a rendezéshez)
+
 - Régi adatbázis átemelése viszonylag automatikusan
 
 Extrák:
