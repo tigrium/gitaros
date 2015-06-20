@@ -1,6 +1,6 @@
 # Gitáros mise diás honlapja
 
-- API terv: [AnyPoint](https://anypoint.mulesoft.com/)
+- API terv: [Anypoint](https://anypoint.mulesoft.com/)
 - Adatbázis terv: [Vertabelo](https://www.vertabelo.com)
 
 Egységek:
