@@ -6,7 +6,12 @@ class Rest {
         if (preg_match("/\/enekek\/([^?.]*)/i", $path, $matches)) {
             include_once 'oldalak/enekek.php';
             $mode = $matches[1];
-            echo "$method énekek, mód: $mode\n";
+            $enekek = new Enekek();
+            $enekek->getList($mode, $parameters);
+        } else if (preg_match("/\/enek\/(.*)\/delete([^?.]*)/i", $path, $matches)) {
+            include_once 'oldalak/enekek.php';
+            $id = $matches[1];
+            echo "$method ének törlése, id: $id\n";
         } else if (preg_match("/\/enek\/([^?.]*)/i", $path, $matches)) {
             include_once 'oldalak/enekek.php';
             $id = $matches[1];
