@@ -3,7 +3,18 @@
 class Enekek {
 
     public function getList($mode, $parameters) {
-        $sql = 'SELECT e.id, e.szam, e.cim, e.alkalom, e.alleluja, e.megjegyzes, mr.mise, d.diak '
+        $selectList;
+        if ($mode == 'quick') {
+            $selectList = 'e.id, e.szam ';
+        } elseif ($mode == 'normal') {
+            $selectList = 'e.id, e.szam, e.cim, e.alkalom, e.alleluja, e.megjegyzes, mr.mise, d.diak ';
+        } elseif ($mode == 'count') {
+            $selectList = 'count(*) ';
+        } else {
+            return;
+        }
+
+        $sql = 'SELECT ' . $selectList
                 . 'FROM enekek AS e '
                 . 'LEFT JOIN (SELECT enek_ref, GROUP_CONCAT(miseresz_ref) AS mise '
                 . 'FROM enek_misereszek '

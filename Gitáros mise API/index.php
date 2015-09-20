@@ -1,20 +1,64 @@
 <?php
 
-include_once 'rest.php';
-
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(-1);
 
-$path = $_REQUEST['q'];
-$method = $_SERVER['REQUEST_METHOD'];
-$parameters = $_GET;
-unset($parameters['q']);
-$headers = getallheaders();
-$body = json_decode(file_get_contents('php://input'));
+require 'Slim/Slim.php';
+\Slim\Slim::registerAutoloader();
 
-$rest = new Rest();
+require './oldalak/enekek.php';
 
-$rest->go($path, $method, $headers, $parameters, $body);
+$app = new \Slim\Slim();
+
+$app->get('/', function() {
+    header('Content-Type: text/html; charset=utf-8');
+    echo 'Gitáros mise API';
+});
+
+$app->get('/enekek/:mode', function($mode) use ($app) {
+    $headers = $app->request->headers;
+    $req = $app->request();
+
+    $parameters = array(
+        'szam' => $req->get('szam'),
+        'cim' => $req->get('cim'),
+        'mise' => $req->get('mise'),
+        'alkalom' => $req->get('alkalom'),
+        'alleluja' => $req->get('alleluja'),
+        'megj' => $req->get('megj')
+    );
+
+    $enekek = new Enekek();
+    $enekek->getList($mode, $parameters);
+});
+
+
+/* TESZT */
+$app->get('/hello/:name', function ($name) {
+    header('Content-Type: text/html; charset=utf-8');
+    echo "Hello, $name";
+});
+
+$app->get('/test', function() {
+    echo 'teszt get';
+});
+
+$app->post('/test', function() {
+    echo 'teszt post';
+});
+
+$app->put('/test', function() {
+    echo 'teszt put';
+});
+
+$app->delete('/test', function() {
+    echo 'teszt delete';
+});
+
+$app->get('/test/:id', function($id) {
+    echo "teszt get id: $id";
+});
+/* TESZT VÉGE */
+
+$app->run();
