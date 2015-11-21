@@ -7,13 +7,25 @@ error_reporting(-1);
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
+require './lib/jwt_helper.php';
+
+require './shell/communication.php';
+
+require './oldalak/login.php';
 require './oldalak/enekek.php';
 
 $app = new \Slim\Slim();
+$login = new Login();
 
 $app->get('/', function() {
-    header('Content-Type: text/html; charset=utf-8');
     echo 'Gitáros mise API';
+});
+
+$app->get('/login', function() use ($app, $login) {
+    $login->getToken($app);
+});
+$app->get('/login/check', function() use ($app, $login) {
+    $login->checkToken($app);
 });
 
 $app->get('/enekek/:mode', function($mode) use ($app) {
