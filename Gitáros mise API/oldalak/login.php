@@ -28,8 +28,20 @@ class Login {
 
     public function checkToken($app) {
         $token = Communication::getRequestHeaderData($app, 'token');
+        if(!isset($token)) {
+            Communication::writeUnauthorizedResponse($app, true);
+        }
         $decoded = JWT::decode($token, Login::loadKey());
-        echo json_encode($decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        if ($decoded->user == 'kata' && $decoded->pass == '12345') {
+             $res = array(
+                'id' => 1,
+                'login' => 'kata',
+                'name' => 'Kata'
+            );
+            Communication::writeJsonResponse($app, $res);
+        } else {
+            Communication::writeUnauthorizedResponse($app, false);
+        }
     }
 
     public function signup() {
@@ -37,7 +49,7 @@ class Login {
     }
 
     private static function loadKey() {
-        $keyfile = 'keyfile.txt';
+        $keyfile = './secret/keyfile.txt';
         $myfile = fopen($keyfile, 'r') or die('Unable to open file!');
         $key = fread($myfile, filesize($keyfile));
         fclose($myfile);
