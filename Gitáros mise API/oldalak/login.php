@@ -1,59 +1,99 @@
 <?php
 
+require './data/users.php';
+
 class Login {
     /*
      * Itt majd csak az Auth osztály hivogatása és válaszadás lesz.
      */
-    public function getToken($app) {
-        $login = Communication::getRequestHeaderData($app, array('user', 'pass'));
-        // név jelszó ellenőrzés
-        if ($login['user'] == 'kata' && $login['pass'] == '12345') {
-            $token = array(
-                'user' => $login['user'],
-                'pass' => $login['pass']
-            );
-            $res = array(
-                'id' => 1,
-                'login' => 'kata',
-                'name' => 'Kata',
-                'token' => JWT::encode($token, Login::loadKey())
-            );
-            Communication::writeJsonResponse($app, $res);
-        } else {
-            $app->response()->header('Content-Type', 'text/plain');
-            $app->response()->status(401);
-            echo 'Érvénytelen név vagy jelszó.';
+
+    private static $IMG_DIR = '../data/user-images/';
+
+//    Itt inkábbb tényleg csak tokent ad vissza (a getTokenben is ellenőriz), a felhasználó adatait (megjelenítendő név, kép, login)
+//            csak külön kérésre küldi vissza. api tervben is át kell írni!
+    public static function getToken($app) {
+        $data = Communication::getRequestHeaderData($app, array('login', 'pass'));
+        try {
+            $token = Auth::createToken($data);
+            Communication::writeJsonResponse($app, array(
+                'error' => false,
+                'status' => 200,
+                'data' => $token
+            ));
+        } catch (Exception $ex) {
+            $status = 400;
+            $msg = $ex->getMessage();
+            if ($msg == 'Érvénytelen token.') {
+                $status = 401;
+                $msg = 'Érvénytelen név vagy jelszó.';
+            }
+            Communication::writeJsonResponse($app, array(
+                'error' => true,
+                'status' => $status,
+                'data' => $msg
+            ));
         }
     }
 
-    public function checkToken($app) {
+    public static function checkToken($app) {
         $token = Communication::getRequestHeaderData($app, 'token');
-        if(!isset($token)) {
-            Communication::writeUnauthorizedResponse($app, true);
-        }
-        $decoded = JWT::decode($token, Login::loadKey());
-        if ($decoded->user == 'kata' && $decoded->pass == '12345') {
-             $res = array(
-                'id' => 1,
-                'login' => 'kata',
-                'name' => 'Kata'
-            );
-            Communication::writeJsonResponse($app, $res);
-        } else {
-            Communication::writeUnauthorizedResponse($app, false);
+
+        try {
+            $valid = Auth::isValidToken($token);
+            Communication::writeJsonResponse($app, array(
+                'error' => false,
+                'status' => 200,
+                'data' => array('valid' => $valid)
+            ));
+        } catch (Exception $ex) {
+            Communication::writeDefaultError($app, $ex);
+            return;
         }
     }
 
-    public function signup() {
-        
-    }
+    public static function signup($app) {
+        $adatok = Communication::getRequestBodyData($app, array('login', 'pass', 'email', 'nev', 'kep'));
 
-    private static function loadKey() {
-        $keyfile = './secret/keyfile.txt';
-        $myfile = fopen($keyfile, 'r') or die('Unable to open file!');
-        $key = fread($myfile, filesize($keyfile));
-        fclose($myfile);
-        return $key;
+        if (!isset($adatok['login']) || !isset($adatok['pass']) || !isset($adatok['email'])) {
+            Communication::writeJsonResponse($app, array(
+                'error' => true,
+                'status' => 400,
+                'data' => 'Hiányos adatok! (login, pass, email kötelező)'
+            ));
+            return;
+        }
+
+        $userData = array(
+            'login' => $adatok['login'],
+            'pass' => $adatok['pass'],
+            'email' => $adatok['email']
+        );
+        if (isset($adatok['nev'])) {
+            $userData['nev'] = $adatok['nev'];
+        }
+        if (isset($adatok['kep'])) {
+            $data = $adatok['kep'];
+            $fileName = $data->name;
+            $outFile = Login::$IMG_DIR . $fileName;
+            while (is_file($outFile)) {
+                $fileName = 'r' . rand() . $data->name;
+                $outFile = Login::$IMG_DIR . $fileName;
+            }
+            $userData['kep'] = $fileName;
+        }
+
+        try {
+            Users::newUser($userData);
+            File::writeImage($data->file, $outFile);
+            Communication::writeJsonResponse($app, array(
+                'error' => false,
+                'status' => 201,
+                'data' => array('success' => true)
+            ));
+        } catch (Exception $ex) {
+            Communication::writeDefaultError($app, $ex);
+            return;
+        }
     }
 
 }
