@@ -106,6 +106,10 @@ $app->get('/misesor/szoveg/:ids', function($ids) use ($app) {
     Misesor::getSzoveg($app, $ids);
 });
 
+$app->get('/misesor/zip/:ids/:zipnev', function($ids, $zipnev) use ($app) {
+    Misesor::getZip($app, $ids, $zipnev);
+});
+
 
 //$app->get('/enekek/:mode', function($mode) use ($app) {
 //    $headers = $app->request->headers;
